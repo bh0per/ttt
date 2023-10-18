@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>sprawdzacz h@sła</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+    <script>
+        function sprawdzHaslo(event) {
+            event.preventDefault(); // Zapobiegamy domyślnemu działaniu formularza
+
+            var haslo = document.getElementById("haslo").value;
+            var hasloInfo = document.getElementById("haslo-info");
+            var hasloPoprawne = document.getElementById("haslo-poprawne");
+
+            // Usuń komunikat o błędzie (jeśli istnieje)
+            hasloInfo.innerHTML = "";
+
+            // Sprawdź długość hasła
+            if (haslo.length < 8) {
+                hasloInfo.innerHTML = "Hasło jest zbyt krótkie. Wymagane jest co najmniej 8 znaków.";
+                hasloPoprawne.innerHTML = "";
+                return false;
+            }
+
+            // Sprawdź, czy hasło zawiera co najmniej jedną dużą literę
+            if (!/[A-Z]/.test(haslo)) {
+                hasloInfo.innerHTML = "Hasło musi zawierać co najmniej jedną dużą literę.";
+                hasloPoprawne.innerHTML = "";
+                return false;
+            }
+
+            // Sprawdź, czy hasło zawiera co najmniej jedną cyfrę
+            if (!/\d/.test(haslo)) {
+                hasloInfo.innerHTML = "Hasło musi zawierać co najmniej jedną cyfrę.";
+                hasloPoprawne.innerHTML = "";
+                return false;
+            }
+
+            // Sprawdź, czy hasło zawiera co najmniej jeden znak specjalny
+            if (!/[\W_]/.test(haslo)) {
+                hasloInfo.innerHTML = "Hasło musi zawierać co najmniej jeden znak specjalny.";
+                hasloPoprawne.innerHTML = "";
+                return false;
+            }
+
+            // Komunikat o poprawnym haśle
+            hasloPoprawne.innerHTML = "Poprawne hasło: " + haslo;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>sprawdzacz h@sła</h2>
+        <form onsubmit="sprawdzHaslo(event)">
+            <div class="error-message" id="haslo-info"></div>
+            <label for="haslo">H@sło:</label>
+            <input type="password" id="haslo" name="haslo">
+            <br>
+            <input type="submit" value="Zatwierdź">
+        </form>
+        <div>
+            <div class="success-message" id="haslo-poprawne"></div> <!-- Komunikat o poprawnym haśle -->
+        </div>
+    </div>
+</body>
+</html>
